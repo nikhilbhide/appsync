@@ -11,6 +11,11 @@ hobbies = [{id:'1', title:"swimming", area:"sports", description:"doing swimming
 {id:'3', title:"playing guitar", area:"music", description:"playing instrument such as guitar"},
 {id:'4', title:"singing", area:"music", description:"singing with a gifted voice"}]
 
+posts = [{id:'1', comment:"This is not so good TV"},
+        {id:'2', comment:"I am feeling so cool"},
+        {id:'3', comment:"This is delicate and hence fragile"},
+        {id:'4', comment:"I love my country"}]
+
 const {
     GraphQLObjectType,
     GraphQLID,
@@ -44,6 +49,17 @@ const HobbyType = new GraphQLObjectType({
     })
 })
 
+//create post type
+const PostType = new GraphQLObjectType({
+    name:'Post',
+    description: 'This is schema for post type',
+    fields:() => ({
+        id:{type:GraphQLString},
+        comment:{type:GraphQLString},
+    })
+})
+
+
 //Root query
 const RootQuery = new GraphQLObjectType({
     name : 'RootQuerySchema',
@@ -63,6 +79,14 @@ const RootQuery = new GraphQLObjectType({
             resolve(parent,args) {
                 //resolve with data              
                 return _.find(hobbies,{id:args.id })              
+            }
+        },
+        post:{
+            type:PostType,
+            args:{id:{type:GraphQLID}},
+            resolve(parent,args){
+                //resolve with data
+                return _.find(posts,{id:args.id })                            
             }
         }
     }
