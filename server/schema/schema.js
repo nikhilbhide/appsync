@@ -6,6 +6,11 @@ users = [{id:'1', name:"abc", age:3, profession:"it engineer"},
               {id:'3', name:"klas", age:75, profession:"mechanic"},
               {id:'4', name:"sfc", age:10, profession:"teacher"}]
 
+hobbies = [{id:'1', title:"swimming", area:"sports", description:"doing swimming"},
+{id:'2', title:"table tennis", area:"sports", description:"playing table tennis"},
+{id:'3', title:"playing guitar", area:"music", description:"playing instrument such as guitar"},
+{id:'4', title:"singing", area:"music", description:"singing with a gifted voice"}]
+
 const {
     GraphQLObjectType,
     GraphQLID,
@@ -26,6 +31,19 @@ const UserType = new GraphQLObjectType({
     })
 })
 
+//create type
+const HobbyType = new GraphQLObjectType({
+    name:'hobby',
+    description: 'This is schema for hobby type',
+    fields:() => ({
+        id:{type:GraphQLID},
+        title:{type:GraphQLString},
+        area:{type:GraphQLString},
+        description:{type:GraphQLString},
+        profession:{type:GraphQLString}
+    })
+})
+
 //Root query
 const RootQuery = new GraphQLObjectType({
     name : 'RootQuerySchema',
@@ -36,8 +54,16 @@ const RootQuery = new GraphQLObjectType({
             args:{id:{type:GraphQLString}},
             resolve(parent,args) {
                 //resolve with data
-                
+              
                 return _.find(users,{id:args.id})
+            }
+        },
+        hobby:{
+            type:HobbyType,
+            args:{id:{type:GraphQLID}},
+            resolve(parent,args) {
+                //resolve with data              
+                return _.find(hobbies,{id:args.id })              
             }
         }
     }
