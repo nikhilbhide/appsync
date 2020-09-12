@@ -1,9 +1,9 @@
 const graphql = require('graphql');
 var _ = require('lodash');
 
-users = [{id:'1', name:"abc", age:3, profession:"it engineer"},
-              {id:'2', name:"xyz", age:23, profession:"doctor"},
-              {id:'3', name:"klas", age:75, profession:"mechanic"},
+users = [{id:'1', name:"abc", age:3, profession:"it engineer", posts:["1","2"]},
+              {id:'2', name:"xyz", age:23, profession:"doctor", posts:["3"]},
+              {id:'3', name:"klas", age:75, profession:"mechanic", posts:["4"]},
               {id:'4', name:"sfc", age:10, profession:"teacher"}]
 
 hobbies = [{id:'1', title:"swimming", area:"sports", description:"doing swimming", userId:"2"},
@@ -21,7 +21,8 @@ const {
     GraphQLID,
     GraphQLString,
     GraphQLInt,
-    GraphQLSchema
+    GraphQLSchema,
+    GraphQLList
 } = graphql
 
 //create type
@@ -32,7 +33,13 @@ const UserType = new GraphQLObjectType({
         id:{type:GraphQLString},
         name:{type:GraphQLString},
         age:{type:GraphQLInt},
-        profession:{type:GraphQLString}
+        profession:{type:GraphQLString},
+        posts:{
+            type:new GraphQLList(PostType),
+            resolve(parent,args){
+                return _.filter(posts,{userId:parent.id})
+            }
+        }
     })
 })
 
