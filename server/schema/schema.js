@@ -6,10 +6,10 @@ users = [{id:'1', name:"abc", age:3, profession:"it engineer"},
               {id:'3', name:"klas", age:75, profession:"mechanic"},
               {id:'4', name:"sfc", age:10, profession:"teacher"}]
 
-hobbies = [{id:'1', title:"swimming", area:"sports", description:"doing swimming"},
-{id:'2', title:"table tennis", area:"sports", description:"playing table tennis"},
-{id:'3', title:"playing guitar", area:"music", description:"playing instrument such as guitar"},
-{id:'4', title:"singing", area:"music", description:"singing with a gifted voice"}]
+hobbies = [{id:'1', title:"swimming", area:"sports", description:"doing swimming", userId:"2"},
+{id:'2', title:"table tennis", area:"sports", description:"playing table tennis", userId:"4"},
+{id:'3', title:"playing guitar", area:"music", description:"playing instrument such as guitar", userId:"1"},
+{id:'4', title:"singing", area:"music", description:"singing with a gifted voice", userId: "3"}]
 
 posts = [{id:'1', comment:"This is not so good TV", userId:'4'},
         {id:'2', comment:"I am feeling so cool", userId:'3'},
@@ -45,7 +45,13 @@ const HobbyType = new GraphQLObjectType({
         title:{type:GraphQLString},
         area:{type:GraphQLString},
         description:{type:GraphQLString},
-        profession:{type:GraphQLString}
+        profession:{type:GraphQLString},
+        user:{
+            type:UserType,
+            resolve(parent,args){
+                return _.find(users,parent.userId)
+            }
+        }
     })
 })
 
@@ -84,7 +90,7 @@ const RootQuery = new GraphQLObjectType({
             args:{id:{type:GraphQLID}},
             resolve(parent,args) {
                 //resolve with data              
-                return _.find(hobbies,{id:args.id })              
+                return _.find(hobbies,{id:args.id})              
             }
         },
         post:{
@@ -92,7 +98,7 @@ const RootQuery = new GraphQLObjectType({
             args:{id:{type:GraphQLID}},
             resolve(parent,args){
                 //resolve with data
-                return _.find(posts,{id:args.id })                            
+                return _.find(posts,{id:args.id})                            
             }
         }
     }
