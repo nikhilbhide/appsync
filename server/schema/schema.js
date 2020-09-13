@@ -126,7 +126,14 @@ const RootQuery = new GraphQLObjectType({
                 //resolve with data
                 return _.find(posts,{id:args.id})                            
             }
-        }
+        },
+        posts:{
+            type: new GraphQLList(PostType),
+            resolve(parent, args) {
+                //resolve with resultset
+                return posts
+            }
+        },
     }
 })
 
