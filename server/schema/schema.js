@@ -58,7 +58,6 @@ const HobbyType = new GraphQLObjectType({
         title:{type:GraphQLString},
         area:{type:GraphQLString},
         description:{type:GraphQLString},
-        profession:{type:GraphQLString},
         user:{
             type:UserType,
             resolve(parent,args){
@@ -120,6 +119,7 @@ const RootQuery = new GraphQLObjectType({
 const Mutation = new GraphQLObjectType({
     name:'Mutation',
     fields:{
+        //user type mutation
         createUser:{
             type:UserType,
             args:{
@@ -135,6 +135,24 @@ const Mutation = new GraphQLObjectType({
                     profession : args.profession
                 }
                 return user
+            }
+        },
+        //hobby type mutation
+        createHobby:{
+            type:HobbyType,
+            args:{
+                //id:{type:GraphQLID},
+                title:{type:GraphQLString},
+                area:{type:GraphQLString},
+                description:{type:GraphQLString},
+            },
+            resolve(parent,args) {
+                let hobby = {
+                    title : args.title,
+                    area : args.area,
+                    description : args.description
+                }
+                return hobby
             }
         }
     }
