@@ -1,17 +1,17 @@
 const graphql = require('graphql');
 var _ = require('lodash');
 
-users = [{id:'1', name:"abc", age:3, profession:"it engineer", posts:["1","2"]},
-              {id:'2', name:"xyz", age:23, profession:"doctor", posts:["3"]},
-              {id:'3', name:"klas", age:75, profession:"mechanic", posts:["4"]},
+users = [{id:'1', name:"abc", age:3, profession:"it engineer"},
+              {id:'2', name:"xyz", age:23, profession:"doctor"},
+              {id:'3', name:"klas", age:75, profession:"mechanic"},
               {id:'4', name:"sfc", age:10, profession:"teacher"}]
 
 hobbies = [{id:'1', title:"swimming", area:"sports", description:"doing swimming", userId:"2"},
-{id:'2', title:"table tennis", area:"sports", description:"playing table tennis", userId:"4"},
+{id:'2', title:"table tennis", area:"sports", description:"playing table tennis", userId:"2"},
 {id:'3', title:"playing guitar", area:"music", description:"playing instrument such as guitar", userId:"1"},
 {id:'4', title:"singing", area:"music", description:"singing with a gifted voice", userId: "3"}]
 
-posts = [{id:'1', comment:"This is not so good TV", userId:'4'},
+posts = [{id:'1', comment:"This is not so good TV", userId:'2'},
         {id:'2', comment:"I am feeling so cool", userId:'3'},
         {id:'3', comment:"This is delicate and hence fragile", userId:'2'},
         {id:'4', comment:"I love my country", userId:'1'}]
@@ -38,6 +38,12 @@ const UserType = new GraphQLObjectType({
             type:new GraphQLList(PostType),
             resolve(parent,args){
                 return _.filter(posts,{userId:parent.id})
+            }
+        },
+        hobbies:{
+            type:new GraphQLList(HobbyType),
+            resolve(parent,args){
+                return _.filter(hobbies,{userId:parent.id})
             }
         }
     })
