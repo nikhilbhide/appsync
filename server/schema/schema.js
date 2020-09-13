@@ -112,6 +112,13 @@ const RootQuery = new GraphQLObjectType({
                 return _.find(hobbies,{id:args.id})              
             }
         },
+        hobbies:{
+            type: new GraphQLList(HobbyType),
+            resolve(parent, args) {
+                //resolve with resultset
+                return hobbies
+            }
+        },
         post:{
             type:PostType,
             args:{id:{type:GraphQLID}},
