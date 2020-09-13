@@ -22,7 +22,8 @@ const {
     GraphQLString,
     GraphQLInt,
     GraphQLSchema,
-    GraphQLList
+    GraphQLList,
+    GraphQLNonNull
 } = graphql
 
 //create type
@@ -55,7 +56,7 @@ const HobbyType = new GraphQLObjectType({
     description: 'This is schema for hobby type',
     fields:() => ({
         id:{type:GraphQLID},
-        title:{type:GraphQLString},
+        title:{type:new GraphQLNonNull(GraphQLString)},
         area:{type:GraphQLString},
         description:{type:GraphQLString},
         user:{
