@@ -2,7 +2,7 @@ const graphql = require('graphql');
 var _ = require('lodash');
 
 users = [{id:'1', name:"abc", age:3, profession:"it engineer"},
-              {id:'2', name:"xyz", age:23, profession:"doctor"},
+              {id:'2', name:"sdg", age:23, profession:"doctor"},
               {id:'3', name:"klas", age:75, profession:"mechanic"},
               {id:'4', name:"sfc", age:10, profession:"teacher"}]
 
@@ -14,7 +14,7 @@ hobbies = [{id:'1', title:"swimming", area:"sports", description:"doing swimming
 posts = [{id:'1', comment:"This is not so good TV", userId:'2'},
         {id:'2', comment:"I am feeling so cool", userId:'3'},
         {id:'3', comment:"This is delicate and hence fragile", userId:'2'},
-        {id:'4', comment:"I love my country", userId:'1'}]
+        {id:'4', comment:"I love my co`untry", userId:'1'}]
 
 const {
     GraphQLObjectType,
@@ -61,7 +61,7 @@ const HobbyType = new GraphQLObjectType({
         user:{
             type:UserType,
             resolve(parent,args){
-                return _.find(users,parent.userId)
+                return _.find(users,{id:parent.userId})
             }
         }
     })
@@ -145,12 +145,14 @@ const Mutation = new GraphQLObjectType({
                 title:{type:GraphQLString},
                 area:{type:GraphQLString},
                 description:{type:GraphQLString},
+                userId: {type:GraphQLID}
             },
             resolve(parent,args) {
                 let hobby = {
                     title : args.title,
                     area : args.area,
-                    description : args.description
+                    description : args.description,
+                    userId:args.userId        
                 }
                 return hobby
             }
